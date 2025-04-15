@@ -23,6 +23,7 @@ import json
 import logging
 from fastapi import FastAPI, Depends, status, HTTPException
 from fastapi.responses import JSONResponse
+from fastapi.requests import Request
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from fastapi_oidc import FastAPIOIDC
 from typing import Annotated
@@ -49,7 +50,7 @@ class NotFound(BaseModel):
     details: str
 
 
-async def authenticate(request: Annotated[OAuth2PasswordRequestForm, Depends()], ) -> JSONResponse:
+async def authenticate(request: Annotated[Request, Depends()], ) -> JSONResponse:
     form_data: FormData = await request.form()
     user = oidc.token(form_data)
     if not user:
@@ -77,6 +78,7 @@ import json
 import logging
 from fastapi import FastAPI, Depends, status, HTTPException
 from fastapi.responses import JSONResponse
+from fastapi.requests import Request
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from fastapi_oidc import FastAPIOIDC
 from typing import Annotated
@@ -103,7 +105,7 @@ class NotFound(BaseModel):
     details: str
 
 
-async def authenticate(request: Annotated[OAuth2PasswordRequestForm, Depends()], ) -> JSONResponse:
+async def authenticate(request: Annotated[Request, Depends()], ) -> JSONResponse:
     form_data: FormData = await request.form()
     user = oidc.token(form_data)
     if not user:
