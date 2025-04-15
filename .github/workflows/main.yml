@@ -10,7 +10,7 @@ on:
 
 jobs:
   ci:
-    uses: frederickney/fastapi_authlib_oidc/.github/workflow/python-publish.yml@master
+    uses: frederickney/fastapi_authlib_oidc/.github/workflows/python-publish.yml@master
     with:
       python-version: '3.9'
       coverage: true
