@@ -1,0 +1,16 @@
+name: Publish package
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  ci:
+    uses: frederickney/fastapi_authlib_oidc/.github/workflows/python-publish.yml@master
+    with:
+      python-version: '3.9'
+      coverage: true
