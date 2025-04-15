@@ -5,19 +5,14 @@ __author__ = "Frédérick NEY"
 import base64
 import datetime
 import inspect
-import json
-import yaml
 import logging
 import warnings
-
 from typing import Annotated
 
 import requests
+import yaml
 from authlib.integrations.base_client import OAuthError, OAuth2Mixin
 from authlib.jose import jwt, JsonWebToken
-from authlib.oauth2.rfc7662 import (
-    IntrospectTokenValidator as BaseIntrospectTokenValidator,
-)
 from authlib.oidc.core import CodeIDToken, ImplicitIDToken
 from fastapi import Depends, HTTPException, status
 from starlette.datastructures import FormData
@@ -219,31 +214,6 @@ def _login_oidc_user(oidc_auth, model, token=None, user=None, password=None):
         return None
 
 
-class IntrospectTokenValidator(BaseIntrospectTokenValidator):
-    flask_oidc = None
-
-    def __init__(self, flask_oidc):
-        self.flask_oidc = flask_oidc
-        super(IntrospectTokenValidator, self).__init__()
-
-    """Validates a token using introspection."""
-
-    def introspect_token(self, token_string):
-        """Return the token introspection result."""
-        oauth = self.flask_oidc.oidc_prepare(self.flask_oidc.token)
-        metadata = oauth.load_server_metadata()
-        if "introspection_endpoint" not in metadata:
-            raise RuntimeError(
-                "Can't validate the token because the server does not support "
-                "introspection."
-            )
-        with oauth._get_oauth_client(**metadata) as session:
-            response = session.introspect_token(
-                metadata["introspection_endpoint"], token=token_string
-            )
-        return response.json()
-
-
 class FastAPIOIDC(object):
     _logout_user = None
     _login_user = None
@@ -326,7 +296,6 @@ class FastAPIOIDC(object):
         client = self._get_client(self._app, self._prefix)
         return client
 
-
     def user(self, token):
         """
 
@@ -358,7 +327,6 @@ class FastAPIOIDC(object):
         else:
             raise Exception("{}.{}.login_user: {} not callable".format(__name__, __class__.__name__, callback))
 
-
     def secret(self, callback):
         if callable(callback) and not inspect.isclass(callback):
             self.load_secrets = callback
@@ -386,8 +354,8 @@ class FastAPIOIDC(object):
             )
         user = self._login_user(
             oauth_client, self._user_model,
-            password = form_data.get("password"),
-            user = form_data.get("username")
+            password=form_data.get("password"),
+            user=form_data.get("username")
         )
         if not user:
             raise HTTPException(

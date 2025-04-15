@@ -1,7 +1,6 @@
-import logging
 import requests
 
-from authlib.integrations.base_client import OAuth1Mixin, BaseApp, OAuthError, OAuth2Mixin, OpenIDMixin
+from authlib.integrations.base_client import OAuth1Mixin, BaseApp, OAuth2Mixin, OpenIDMixin
 from authlib.integrations.requests_client import OAuth1Session, OAuth2Session
 from fastapi import HTTPException, status
 
@@ -11,6 +10,7 @@ class FastAPIAppOAuth1App(OAuth1Mixin, BaseApp):
 
     def authorize_access_token(self, **kwargs):
         pass
+
 
 class FastAPIAppOAuth2App(OAuth2Mixin, OpenIDMixin, BaseApp):
     client_cls = OAuth2Session
@@ -46,7 +46,6 @@ class FastAPIAppOAuth2App(OAuth2Mixin, OpenIDMixin, BaseApp):
                     detail="Token expired",
                     headers={"WWW-Authenticate": "Bearer"},
                 )
-
 
     def authorize_access_token(self, **kwargs):
         pass

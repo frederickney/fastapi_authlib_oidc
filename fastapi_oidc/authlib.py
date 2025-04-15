@@ -1,6 +1,6 @@
-from werkzeug.local import LocalProxy
 from authlib.integrations.base_client import FrameworkIntegration, BaseOAuth
 from authlib.integrations.base_client import OAuthError
+from werkzeug.local import LocalProxy
 
 from fastapi_oidc.app import FastAPIAppOAuth2App, FastAPIAppOAuth1App
 
@@ -49,7 +49,7 @@ class OAuth(BaseOAuth):
 
     def create_client(self, name):
         if not self.app:
-            raise RuntimeError("OAuth is not init with Flask app.")
+            raise RuntimeError("OAuth is not init with FastAPI app.")
         return super().create_client(name)
 
     def register(self, name, overwrite=False, **kwargs):
@@ -66,5 +66,3 @@ __all__ = [
     "FastAPIAppOAuth2App",
     "OAuthError",
 ]
-
-

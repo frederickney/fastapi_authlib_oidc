@@ -3,7 +3,6 @@
 __author__ = "Frédérick NEY"
 
 import json
-import logging
 from base64 import b64encode
 from datetime import datetime
 
@@ -63,7 +62,6 @@ class OpenIDUser(object):
         user_profile = oidc_auth.parse_access_token(token, nonce="")
         user_profile.update({'token': {'access_token': token}})
         return OpenIDUser(**user_profile)
-
 
     def __init__(self, **kwargs):
         for key, attr in kwargs.items():
