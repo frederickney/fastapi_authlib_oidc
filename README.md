@@ -14,7 +14,6 @@ pip install fastapi-authlib-oidc
 client_id: CLIENT_ID
 client_secret: CLIENT_SECRET
 issuer: IDP_ISSUER <url before /.well-known/openid-configuration>
-
 ```
 
 - Base login configuration
